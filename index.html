@@ -1,33 +1,530 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git e Github</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StreamVerse | Seu streaming favorito</title>
+  <style>
+    :root {
+      --bg: #090b14;
+      --bg-soft: #12162a;
+      --card: #1b2038;
+      --text: #f5f7ff;
+      --muted: #b9c2e4;
+      --accent: #6c63ff;
+      --accent-2: #31d0ff;
+      --danger: #ff5f7c;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --radius: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top right, #1c2558 0%, var(--bg) 40%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(9, 11, 20, 0.65);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .navbar-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .brand-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      font-weight: 900;
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.2rem;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 360px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border-radius: 999px;
+      height: 40px;
+      padding: 0 1rem 0 2.4rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent-2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.7;
+      font-size: 0.95rem;
+    }
+
+    .hero {
+      margin-top: 2rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: linear-gradient(120deg, rgba(0,0,0,0.72), rgba(14,18,35,0.2)),
+                  url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1500&q=80") center/cover;
+      min-height: 420px;
+      display: flex;
+      align-items: flex-end;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-content {
+      padding: 2rem;
+      max-width: 560px;
+    }
+
+    .eyebrow {
+      color: var(--accent-2);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 0.78rem;
+      margin-bottom: 0.65rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero p {
+      color: #d7def7;
+      margin-bottom: 1.3rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      font-weight: 700;
+      padding: 0.72rem 1.2rem;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #8f59ff);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .section {
+      margin-top: 2.2rem;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-head h2 {
+      font-size: 1.2rem;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: linear-gradient(165deg, var(--card), #10162e);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(108, 99, 255, 0.6);
+    }
+
+    .thumb {
+      aspect-ratio: 16/9;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-body {
+      padding: 0.8rem;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      color: var(--accent-2);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .title {
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .play-inline {
+      margin-top: 0.4rem;
+      background: rgba(49, 208, 255, 0.16);
+      color: #d9f6ff;
+      border: 1px solid rgba(49, 208, 255, 0.4);
+      width: fit-content;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .player {
+      margin-top: 2.2rem;
+      background: linear-gradient(180deg, #141a32, #0b1022);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .player-frame {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 0;
+      background: #05070f;
+    }
+
+    .footer {
+      color: var(--muted);
+      padding: 2.2rem 0 2.8rem;
+      text-align: center;
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 840px) {
+      .nav-links {
+        display: none;
+      }
+
+      .search-box {
+        max-width: 230px;
+      }
+
+      .hero {
+        min-height: 340px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .navbar-content {
+        flex-wrap: wrap;
+        padding: 0.7rem 0;
+      }
+
+      .search-box {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .hero-content {
+        padding: 1.3rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Olá Git e Guithub no VsCode</h1>
+  <header class="navbar">
+    <div class="container navbar-content">
+      <a href="#" class="brand" aria-label="Página inicial StreamVerse">
+        <span class="brand-badge">S</span>
+        <span>StreamVerse</span>
+      </a>
+      <ul class="nav-links" aria-label="Seções principais">
+        <li>Início</li>
+        <li>Séries</li>
+        <li>Filmes</li>
+        <li>Minha Lista</li>
+      </ul>
+      <div class="search-box">
+        <span class="search-icon">🔎</span>
+        <input id="searchInput" type="search" placeholder="Buscar título, gênero ou ator..." />
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-label="Destaque principal">
+      <div class="hero-content">
+        <p class="eyebrow">Novidade da semana</p>
+        <h1>Horizonte 2099</h1>
+        <p>
+          Em uma cidade futurista, uma equipe improvável precisa salvar a rede mundial de energia antes do amanhecer.
+        </p>
+        <div class="actions">
+          <button class="btn-primary" data-video="https://www.youtube.com/embed/ScMzIvxBSi4">▶ Assistir agora</button>
+          <button class="btn-secondary" id="addListBtn">+ Minha Lista</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="player" aria-label="Player de vídeo">
+      <div class="player-header">
+        <strong id="playerTitle">Agora reproduzindo: Selecione um título</strong>
+        <button class="btn-secondary" id="muteToggle" type="button">🔊 Som</button>
+      </div>
+      <iframe
+        id="playerFrame"
+        class="player-frame"
+        src=""
+        title="Player StreamVerse"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Continuar Assistindo</h2>
+        <span id="resultsCount">6 títulos</span>
+      </div>
+      <div class="grid" id="catalogGrid"></div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    © 2026 StreamVerse. Projeto de demonstração feito do zero com HTML, CSS e JavaScript.
+  </footer>
+
+  <script>
+    const catalog = [
+      {
+        title: "Horizonte 2099",
+        genre: "Sci-Fi",
+        year: 2026,
+        duration: "2h 05m",
+        image: "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=900&q=80",
+        video: "https://www.youtube.com/embed/ScMzIvxBSi4"
+      },
+      {
+        title: "Código Atlântico",
+        genre: "Ação",
+        year: 2024,
+        duration: "1h 52m",
+        image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=900&q=80",
+        video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      {
+        title: "Rua do Jazz",
+        genre: "Drama",
+        year: 2025,
+        duration: "2h 12m",
+        image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80",
+        video: "https://www.youtube.com/embed/ysz5S6PUM-U"
+      },
+      {
+        title: "Labirinto Neon",
+        genre: "Suspense",
+        year: 2023,
+        duration: "1h 44m",
+        image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=900&q=80",
+        video: "https://www.youtube.com/embed/aqz-KE-bpKQ"
+      },
+      {
+        title: "Expresso Aurora",
+        genre: "Aventura",
+        year: 2022,
+        duration: "1h 58m",
+        image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=900&q=80",
+        video: "https://www.youtube.com/embed/tgbNymZ7vqY"
+      },
+      {
+        title: "Cidade Solar",
+        genre: "Documentário",
+        year: 2026,
+        duration: "58m",
+        image: "https://images.unsplash.com/photo-1460881680858-30d872d5b530?auto=format&fit=crop&w=900&q=80",
+        video: "https://www.youtube.com/embed/jfKfPfyJRdk"
+      }
+    ];
+
+    const grid = document.getElementById("catalogGrid");
+    const searchInput = document.getElementById("searchInput");
+    const resultsCount = document.getElementById("resultsCount");
+    const playerFrame = document.getElementById("playerFrame");
+    const playerTitle = document.getElementById("playerTitle");
+    const addListBtn = document.getElementById("addListBtn");
+    const muteToggle = document.getElementById("muteToggle");
+
+    let muted = false;
+
+    const renderCatalog = (items) => {
+      grid.innerHTML = "";
+      resultsCount.textContent = `${items.length} título${items.length === 1 ? "" : "s"}`;
+
+      if (!items.length) {
+        grid.innerHTML = "<p>Nenhum título encontrado para sua busca.</p>";
+        return;
+      }
+
+      items.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <img class="thumb" src="${item.image}" alt="Capa do título ${item.title}" loading="lazy" />
+          <div class="card-body">
+            <span class="tag">${item.genre}</span>
+            <h3 class="title">${item.title}</h3>
+            <p class="meta">${item.year} • ${item.duration}</p>
+            <button class="play-inline" data-title="${item.title}" data-video="${item.video}">▶ Reproduzir</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    };
+
+    const playVideo = (title, url) => {
+      const autoplayUrl = `${url}?autoplay=1&mute=${muted ? 1 : 0}`;
+      playerFrame.src = autoplayUrl;
+      playerTitle.textContent = `Agora reproduzindo: ${title}`;
+      playerFrame.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    renderCatalog(catalog);
+
+    grid.addEventListener("click", (event) => {
+      const btn = event.target.closest("button[data-video]");
+      if (!btn) return;
+      playVideo(btn.dataset.title, btn.dataset.video);
+    });
+
+    searchInput.addEventListener("input", (event) => {
+      const query = event.target.value.trim().toLowerCase();
+      const filtered = catalog.filter((item) => {
+        return `${item.title} ${item.genre} ${item.year}`.toLowerCase().includes(query);
+      });
+      renderCatalog(filtered);
+    });
+
+    document.querySelector(".btn-primary").addEventListener("click", (event) => {
+      playVideo("Horizonte 2099", event.currentTarget.dataset.video);
+    });
+
+    addListBtn.addEventListener("click", () => {
+      addListBtn.textContent = "✓ Adicionado";
+      addListBtn.style.background = "rgba(108, 99, 255, 0.35)";
+    });
+
+    muteToggle.addEventListener("click", () => {
+      muted = !muted;
+      muteToggle.textContent = muted ? "🔇 Mudo" : "🔊 Som";
+      if (playerFrame.src) {
+        playerFrame.src = playerFrame.src.replace(/mute=\d/, `mute=${muted ? 1 : 0}`);
+      }
+    });
+  </script>
 </body>
 </html>
-
---systempara git config
-git configure --global user.name "TRABALHANDO COM GUI E GUIT HUB EM 2025"
-git congfigue --global user.email "alexmatheus2002@gmail.COM"
-git config --list
-user.name= TRABALHANDO COM GUI E GUIT HUM EM 2025
-user.email= alexmatheus2002@gmail.com
-git config --list
-git init
-git add
-giy commit -m "initial commit"
-git remote add origin https://github.com/matheus270292/gitcode.git
-git push -u origin master
-
-
-
-
-
-
-
-
-
